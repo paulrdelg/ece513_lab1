@@ -45,12 +45,22 @@ def main():
 	C = np.load('mydata/C.npy')
 	
 	# Eigenvalues & Eigenvectors
-	w = np.linalg.eigvals(C)
-	np.save('mydata/eigenvalues')
-	print(w)
-	w2, v = np.linalg.eig(C)
-	print(w2)
-	print(v)
+	fp = 'mydata/eigenvalues.npy'
+	eigenvalues = np.load(fp)
+	pca = np.load('mydata/pca.npy')
+	print(pca)
+	print(pca.shape)
+	
+	# Reconstruct with 4th pca
+	a = np.zeros(X.shape[0])
+	print(a.shape)
+	count = 0
+	for i in (0, 3):
+		w = W[i]
+		a = a + np.matmul(W[i], VT[i])
+		count = count + 1
+	a = a.reshape((304, 200))
+	lab1.showImage(a)
 	
 	return 0
 
@@ -58,4 +68,4 @@ if __name__ == "__main__":
 	if platform.python_version_tuple()[0] == 3 and platform.python_version_tuple()[1] < 9:
 		print('ERROR: Need Python 3.9.X to run')
 	else:
-		lab1.processed()
+		main()
